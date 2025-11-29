@@ -1,0 +1,52 @@
+// quiz.js
+// Simple console-based quiz
+// Author: Sathi Mondal
+// Roll: 2501660017
+// Date: 2025-11-23
+
+// Array of quiz questions (minimum 5)
+const quizQuestions = [
+  { question: "What is the capital of France?", answer: "paris" },
+  { question: "JavaScript keyword to declare a constant variable?", answer: "const" },
+  { question: "What does HTML stand for?", answer: "hypertext markup language" },
+  { question: "Which method converts a JSON string into an object (name)?", answer: "json.parse" },
+  { question: "What symbol starts a single-line comment in JavaScript?", answer: "//" }
+];
+
+// Normalize user input safely (handles Cancel)
+function normalize(input) {
+  if (input === null) return ""; // user pressed Cancel
+  return String(input).toLowerCase().trim();
+}
+
+// runQuiz: encapsulates quiz logic
+function runQuiz() {
+  let score = 0;
+  const total = quizQuestions.length;
+
+  alert(`Welcome to the Console Quiz!\nYou will be asked ${total} questions.`);
+
+  for (let i = 0; i < total; i++) {
+    const qObj = quizQuestions[i];
+    const raw = prompt(`Question ${i + 1} / ${total}:\n${qObj.question}`);
+    const user = normalize(raw);
+    const correct = qObj.answer.toLowerCase().trim();
+
+    if (user === correct) {
+      score++;
+      alert(`Correct! ✅\nScore: ${score} / ${i + 1}`);
+    } else {
+      const shownUser = user === "" ? "(no answer given)" : raw;
+      alert(`Incorrect. ❌\nYou answered: ${shownUser}\nCorrect answer: ${qObj.answer}\nScore: ${score} / ${i + 1}`);
+    }
+  }
+
+  const percentage = Math.round((score / total) * 100);
+  alert(`Quiz Finished!\nFinal score: ${score} / ${total} (${percentage}%)\nThanks for playing!`);
+
+  // Return result for programmatic checking if needed
+  return { score, total, percentage };
+}
+
+// Auto-start when this file is pasted into the browser console
+runQuiz();
